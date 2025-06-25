@@ -1,0 +1,11 @@
+log/*
+tmp/*
+*.log
+*.pid
+*.sqlite3
+node_modules/
+vendor/
+.byebug_history
+.bundle
+.env
+docker-compose.override.yml
