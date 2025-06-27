@@ -5,3 +5,4 @@ metadata:
   namespace: argocd
 data:
   admin.enabled: "true"
+  application.instanceLabelKey: argocd.argoproj.io/instance
