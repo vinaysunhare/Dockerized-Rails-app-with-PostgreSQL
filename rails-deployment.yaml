@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-web
+  namespace: rails-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rails-web
+  template:
+    metadata:
+      labels:
+        app: rails-web
+    spec:
+      containers:
+        - name: rails
+          image: vinaysunhare/railsapp:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_HOST
+              value: "postgres.rails-app.svc.cluster.local"
+            - name: DATABASE_NAME
+              value: "myapp_development"
+            - name: DATABASE_USER
+              value: "vinaysunhare"
+            - name: DATABASE_PASSWORD
+              value: "vinay123"
+            - name: RAILS_ENV
+              value: "production"
+            - name: SECRET_KEY_BASE
+              value: "dummy_key_base"
