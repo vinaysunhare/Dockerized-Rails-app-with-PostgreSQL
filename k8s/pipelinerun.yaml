@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: run-docker-build
+  generateName: build-run-
 spec:
   pipelineRef:
     name: build-and-deploy-pipeline
@@ -9,7 +9,11 @@ spec:
     - name: git-url
       value: https://github.com/vinaysunhare/Dockerized-Rails-app-with-PostgreSQL.git
     - name: image-url
-      value: docker.io/<vinaysunhare>/rails-app:latest
+      value: docker.io/vinaysunhare/rails-app:latest
+    - name: DOCKERFILE
+      value: Dockerfile     # ✅ Capital D
+    - name: CONTEXT
+      value: .              # ✅ current dir
   workspaces:
     - name: shared-workspace
       emptyDir: {}

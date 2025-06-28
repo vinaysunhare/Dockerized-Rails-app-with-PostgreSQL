@@ -6,22 +6,31 @@ spec:
   params:
     - name: IMAGE
       type: string
-    - name: DOCKERFILE
+    - name: DOCKERFILE     # ✅ Capitalized
       type: string
-      default: ./Dockerfile
-    - name: CONTEXT
+      default: Dockerfile
+    - name: CONTEXT        # ✅ Capitalized
       type: string
       default: .
+  workspaces:
+    - name: source
   steps:
-    - name: build-and-push
+    - name: build
       image: gcr.io/kaniko-project/executor:latest
       env:
         - name: DOCKER_CONFIG
-          value: /tekton/home/.docker/
-      script: |
-        #!/busybox/sh
-        /kaniko/executor --dockerfile=$(params.DOCKERFILE) \
-          --context=$(params.CONTEXT) \
-          --destination=$(params.IMAGE) \
-          --insecure \
-          --skip-tls-verify
+          value: /tekton/home/.docker
+      args:
+        - --dockerfile=/workspace/source/$(params.DOCKERFILE)
+        - --context=/workspace/source/$(params.CONTEXT)
+        - --destination=$(params.IMAGE)
+        - --insecure
+        - --skip-tls-verify
+      workingDir: /workspace/source
+      volumeMounts:
+        - name: kaniko-secret
+          mountPath: /tekton/home/.docker
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: regcred

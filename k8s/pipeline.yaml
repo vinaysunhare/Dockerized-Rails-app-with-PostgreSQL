@@ -6,33 +6,33 @@ spec:
   params:
     - name: git-url
     - name: image-url
+    - name: dockerfile
+      default: Dockerfile
   workspaces:
     - name: shared-workspace
   tasks:
     - name: clone-source
       taskRef:
         name: git-clone
-      workspaces:
-        - name: output
-          workspace: shared-workspace
       params:
         - name: url
           value: $(params.git-url)
-        - name: deleteExisting
-          value: "true"
+      workspaces:
+        - name: output
+          workspace: shared-workspace
 
     - name: build-and-push
-      runAfter:
-        - clone-source
       taskRef:
         name: build-and-push
-      workspaces:
-        - name: source
-          workspace: shared-workspace
+      runAfter:
+        - clone-source
       params:
         - name: IMAGE
           value: $(params.image-url)
         - name: DOCKERFILE
-          value: ./Dockerfile
+          value: $(params.dockerfile)
         - name: CONTEXT
-          value: $(workspaces.source.path)
+          value: .
+      workspaces:
+        - name: source
+          workspace: shared-workspace
