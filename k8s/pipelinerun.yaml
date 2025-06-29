@@ -9,11 +9,11 @@ spec:
     - name: git-url
       value: https://github.com/vinaysunhare/Dockerized-Rails-app-with-PostgreSQL.git
     - name: image-url
-      value: docker.io/vinaysunhare/rails-app:latest
+      value: docker.io/vinaysunhare/railsapp:latest
     - name: DOCKERFILE
-      value: Dockerfile     # ✅ Capital D
+      value: k8s/Dockerfile       # ✅ Point to correct path
     - name: CONTEXT
-      value: .              # ✅ current dir
+      value: k8s                  # ✅ Build context is 'k8s' folder
   workspaces:
     - name: shared-workspace
       emptyDir: {}
