@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: build-run-
+  generateName: build-run-   # ✅ Unique name auto-generated
 spec:
   pipelineRef:
     name: build-and-deploy-pipeline
@@ -11,10 +11,13 @@ spec:
     - name: image-url
       value: docker.io/vinaysunhare/railsapp:latest
     - name: DOCKERFILE
-      value: k8s/Dockerfile       # ✅ Point to correct path
+      value: Dockerfile       # ✅ Changed from k8s/Dockerfile to Dockerfile (assumes Dockerfile is at root)
     - name: CONTEXT
-      value: k8s                  # ✅ Build context is 'k8s' folder
+      value: .               # ✅ Changed from k8s to . (uses root of cloned repo as context)
   workspaces:
     - name: shared-workspace
       emptyDir: {}
   serviceAccountName: default
+  podTemplate:
+    imagePullSecrets:
+      - name: regcred  # ✅ DockerHub credentials secret (ensure it exists)

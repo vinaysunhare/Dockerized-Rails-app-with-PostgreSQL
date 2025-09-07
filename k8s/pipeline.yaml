@@ -7,7 +7,9 @@ spec:
     - name: git-url
     - name: image-url
     - name: dockerfile
-      default: Dockerfile
+      default: Dockerfile  # ✅ Default remains Dockerfile
+    - name: context      # ✅ Added context param for consistency
+      default: .
   workspaces:
     - name: shared-workspace
   tasks:
@@ -20,7 +22,6 @@ spec:
       workspaces:
         - name: output
           workspace: shared-workspace
-
     - name: build-and-push
       taskRef:
         name: build-and-push
@@ -32,7 +33,7 @@ spec:
         - name: DOCKERFILE
           value: $(params.dockerfile)
         - name: CONTEXT
-          value: .
+          value: $(params.context)  # ✅ Updated to use context param
       workspaces:
         - name: source
           workspace: shared-workspace
