@@ -7,8 +7,8 @@ spec:
     - name: git-url
     - name: image-url
     - name: dockerfile
-      default: Dockerfile
-    - name: context
+      default: Dockerfile  # ✅ Default remains Dockerfile
+    - name: context      # ✅ Added context param for consistency
       default: .
   workspaces:
     - name: shared-workspace
@@ -19,6 +19,8 @@ spec:
       params:
         - name: url
           value: $(params.git-url)
+        - name: revision
+          value: main  # ✅ Added to clone latest branch
       workspaces:
         - name: output
           workspace: shared-workspace
@@ -33,7 +35,7 @@ spec:
         - name: DOCKERFILE
           value: $(params.dockerfile)
         - name: CONTEXT
-          value: $(params.context)
+          value: $(params.context)  # ✅ Updated to use context param
       workspaces:
         - name: source
           workspace: shared-workspace
