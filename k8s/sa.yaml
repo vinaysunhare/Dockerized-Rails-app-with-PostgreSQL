@@ -1,0 +1,10 @@
+# Save as sa.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pipeline-sa
+  namespace: default
+secrets:
+  - name: regcred
+imagePullSecrets:
+  - name: regcred
