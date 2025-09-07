@@ -9,7 +9,7 @@ spec:
     - name: git-url
       value: https://github.com/vinaysunhare/Dockerized-Rails-app-with-PostgreSQL.git
     - name: image-url
-      value: docker.io/vinaysunhare/railsapp:latest
+      value: docker.io/vinaysunhare/railsapp:test
     - name: DOCKERFILE
       value: Dockerfile
     - name: CONTEXT
@@ -18,7 +18,7 @@ spec:
     - name: shared-workspace
       persistentVolumeClaim:
         claimName: shared-workspace-pvc
-  serviceAccountName: pipeline-sa  # ✅ Use dedicated service account
+  serviceAccountName: pipeline-sa  # ✅ Ensure this is set
   podTemplate:
     imagePullSecrets:
       - name: regcred
